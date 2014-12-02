@@ -1,4 +1,4 @@
-import flask, numpy, scipy
+import flask, numpy
  
 application = flask.Flask(__name__)
 
