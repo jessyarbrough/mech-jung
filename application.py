@@ -1,4 +1,4 @@
-import flask, numpy
+import flask, numpy, scipy
  
 application = flask.Flask(__name__)
 
@@ -8,7 +8,7 @@ application.debug=True
  
 @application.route('/')
 def hello_world():
-    return "Hello world!"
+    return "We stand on the shoulders of giants."
  
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
