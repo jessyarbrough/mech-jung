@@ -72,8 +72,8 @@ def hello_world():
 
 @application.route('/results', methods = ['POST'])
 def classify():
-	if not is_local_req(flask.request.remote_addr):
-		return err_nedry
+	# if not is_local_req(flask.request.remote_addr):
+	# 	return err_nedry
 	doc = flask.request.form['text']
 	result = ''
 	for pref in prefs:
@@ -120,8 +120,8 @@ def classify():
  
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
-	if not is_local_req(flask.request.remote_addr):
-		return err_nedry
+	# if not is_local_req(flask.request.remote_addr):
+	# 	return err_nedry
 	return 'Coming soon!'
 
 if __name__ == '__main__':
