@@ -12,6 +12,8 @@ application = flask.Flask(__name__)
 prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
+types = ['INFP', 'INFJ', 'INTJ', 'INTP', 'ENTP', 'ENTJ', 'ENFJ', 'ENFP', 'ESFP', 'ESFJ', 'ESTJ',
+'ESTP', 'ISTP', 'ISTJ', 'ISFJ', 'ISFP']
 classifiers = {}
 
 for pref in prefs:
@@ -28,6 +30,14 @@ for pref in prefs:
 				pass
 
 personalities = {}
+PersonalitiesDescription = {}
+
+for line in open("PersonalitiesDescription.tsv", "r"):
+	line = line.split('\t')
+	key = line[0]
+	description = line[1]
+	url = line[2].strip()
+	PersonalitiesDescription[key] = (description, url)
 
 with open("Personalities.tsv", "rb") as f:
     for line in f:
@@ -39,7 +49,6 @@ with open("Personalities.tsv", "rb") as f:
         else:
             personalities[key] = [[values]]
 
- 
 @application.route('/')
 def hello_world():
     return flask.render_template('index.html')
@@ -52,6 +61,8 @@ def classify():
 		clf = classifiers[pref]['svc']['text']
 		result += clf.predict([doc])[0]
 	x = 1
+	description = PersonalitiesDescription[result][0]
+	description_url = PersonalitiesDescription[result][1]
 	people = personalities[result]
 	length = len(people)
 	rand1 = random.randint(0, length/3)
@@ -66,7 +77,7 @@ def classify():
 	name3 = people[rand3][0][0]
 	url3 = "http://www.celebritytypes.com/" + people[rand3][0][1]
 
-	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3)
+	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3, description=description, description_url=description_url)
  
 if __name__ == '__main__':
 	application.debug = True
