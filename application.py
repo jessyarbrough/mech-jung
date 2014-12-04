@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
-import random
+import random, socket
  
 application = flask.Flask(__name__)
 
@@ -14,6 +14,7 @@ clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
 types = ['INFP', 'INFJ', 'INTJ', 'INTP', 'ENTP', 'ENTJ', 'ENFJ', 'ENFP', 'ESFP', 'ESFJ', 'ESTJ',
 'ESTP', 'ISTP', 'ISTJ', 'ISFJ', 'ISFP']
+
 classifiers = {}
 
 for pref in prefs:
@@ -55,6 +56,7 @@ def hello_world():
 
 @application.route('/results', methods = ['POST'])
 def classify():
+	return str(flask.request.remote_addr) + str(socket.gethostbyname(socket.gethostname()))
 	doc = flask.request.form['text']
 	result = ''
 	for pref in prefs:
@@ -76,7 +78,6 @@ def classify():
 	url2 = "http://www.celebritytypes.com/" + people[rand2][0][1]
 	name3 = people[rand3][0][0]
 	url3 = "http://www.celebritytypes.com/" + people[rand3][0][1]
-
 	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3, description=description, description_url=description_url)
  
 if __name__ == '__main__':
