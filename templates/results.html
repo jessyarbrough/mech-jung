@@ -136,17 +136,17 @@
         var name1 = '{{ name1 }}';
         var name2 = '{{ name2 }}';
         var name3 = '{{ name3 }}';
-        var urlpic1 = '{{ pic1 }}';
-        var urlpic2 = '{{ pic2 }}';
-        var urlpic2 = '{{ pic3 }}';
+        var urlpic1 = '{{ url1 }}';
+        var urlpic2 = '{{ url2 }}';
+        var urlpic3 = '{{ url3 }}';
         
         document.getElementById("classification").innerHTML = resultVar;
-        document.getElementById("nametag1").innerHTML = "balls";//name1;
-        document.getElementById("nametag2").innerHTML = "balls";//name2;
-        document.getElementById("nametag3").innerHTML = "balls";//name3;
-        document.getElementById("picture1").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
-        document.getElementById("picture2").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
-        document.getElementById("picture3").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
+        document.getElementById("nametag1").innerHTML = name1;
+        document.getElementById("nametag2").innerHTML = name2;
+        document.getElementById("nametag3").innerHTML = name3;
+        document.getElementById("picture1").setAttribute("src", urlpic1);
+        document.getElementById("picture2").setAttribute("src", urlpic2);
+        document.getElementById("picture3").setAttribute("src", urlpic3);
     </script>
 
 </body>

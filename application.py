@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
+import random
  
 application = flask.Flask(__name__)
 
@@ -50,18 +51,22 @@ def classify():
 	for pref in prefs:
 		clf = classifiers[pref]['svc']['text']
 		result += clf.predict([doc])[0]
-    people = personalities[result]
-    length = len(people)
-    rand1 = random.randint(0, length/3)
-    rand2 = random.randint(length/3+1, 2*length/3)
-    rand3 = random.randint(2*length/3+1, length-1)
-    name1 = people[rand1][0]
-    pickurl1 = people[rand1][1]
-    name2 = people[rand2][0]
-    pickurl2 = people[rand2][1]
-    name3 = people[rand3][0]
-    pickurl3 = people[rand3][1]
-	return flask.render_template('results.html', result=result, name1=name1, name2=name2, name3=name3, pickurl1=pickurl1, pickurl2=pickurl2, pickurl3=pickurl3)
+	x = 1
+	people = personalities[result]
+	length = len(people)
+	rand1 = random.randint(0, length/3)
+	rand2 = random.randint(length/3+1, 2*length/3)
+	rand3 = random.randint(2*length/3+1, length-1)
+	print people[rand1][0][0]
+	name1 = people[rand1][0][0]
+	url1 = "http://www.celebritytypes.com/" + people[rand1][0][1]
+	print url1
+	name2 = people[rand2][0][0]
+	url2 = "http://www.celebritytypes.com/" + people[rand2][0][1]
+	name3 = people[rand3][0][0]
+	url3 = "http://www.celebritytypes.com/" + people[rand3][0][1]
+
+	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3)
  
 if __name__ == '__main__':
 	application.debug = True
