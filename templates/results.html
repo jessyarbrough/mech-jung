@@ -63,16 +63,16 @@
         <div class="row">
             <div class="col-sm-8">
                 <h2 id="classification">What We Do</h2>
-                <p>Description of personality type</p>
+                <p>{{description}}
+                    <br>Learn more <a href="{{description_url}}">here</a>.
+                </p>
       
             </div>
             <div class="col-sm-4">
                 <h2>About Us</h2>
                 <address>
-                    <strong>Filler text</strong>
-                    <br>Filler
-                    <br>Filler
-                    <br>
+                    <p>We is a crew of Texas A&M hustlas wit a interest up in tha merger between pseudo science n' data processing. This tool, Mechanical Jung, takes data input from tha user, either a text snippet or they tweets, compares they input ta known Jungian personalities, then outputs a Jungian personalitizzle type. Well shiiiit, it do dis by rockin a variety of classifers ta determine specific type. Da classifiers is trained on a thugged-out database of over 8000 unique quotes from tha known personalitizzles n' twitta data mined from personalitizzles wit twitta accounts, n' you can put dat on yo' toast. Da result be a simple, somewhat accurate personalitizzle profila n' shit. Go Jung yo ass!
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-Translation courtesy Gizoogle.net</p>
                 </address>
                 
             </div>
@@ -83,16 +83,16 @@
 
         <div class="row">
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" id="picture1" alt="">
-                <h2 id="nametag1">Marketing Box #1</h2>
+                <img class="img-circle img-responsive img-center" id="picture1" alt="" style="width:200px;height:290">
+                <h2 id="nametag1" style="text-align:center">Marketing Box #1</h2>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" id="picture2" alt="">
-                <h2 id="nametag2">Marketing Box #2</h2>
+                <img class="img-circle img-responsive img-center" id="picture2" alt="" style="width:200px;height:290">
+                <h2 id="nametag2" style="text-align:center">Marketing Box #2</h2>
             </div>
             <div class="col-sm-4">
-                <img class="img-circle img-responsive img-center" id="picture3" alt="">
-                <h2 id="nametag3">Marketing Box #3</h2>
+                <img class="img-circle img-responsive img-center" id="picture3" alt="" style="width:200px;height:290">
+                <h2 id="nametag3" style="text-align:center">Marketing Box #3</h2>
             </div>
         </div>
         <!-- /.row -->
@@ -139,6 +139,8 @@
         var urlpic1 = '{{ url1 }}';
         var urlpic2 = '{{ url2 }}';
         var urlpic3 = '{{ url3 }}';
+        var typedescription = '{{ description }}';
+        var urldescription = '{{ description_url }}'
         
         document.getElementById("classification").innerHTML = resultVar;
         document.getElementById("nametag1").innerHTML = name1;
@@ -147,6 +149,8 @@
         document.getElementById("picture1").setAttribute("src", urlpic1);
         document.getElementById("picture2").setAttribute("src", urlpic2);
         document.getElementById("picture3").setAttribute("src", urlpic3);
+        document.getElementById("description").innerHTML = typedescription;
+        document.getElementById("description_url").innerHTML = urldescription;
     </script>
 
 </body>
