@@ -1,39 +1,154 @@
 <!DOCTYPE html>
-
-<html>
-    <title>Results</title>
+<html lang="en">
     
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
-    </head>
-   
-    <body>
-        <div class="container" id="div1" style="padding-top: 150px">
+<style>
+    .nascar {
+        height: 50px;
+    }
+</style>
+
+<head>
+
+    <title>Results</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../static/css/business-frontpage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <!-- <span class="sr-only">Toggle navigation</span> -->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/index.html">Back</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h2 id="classification">What We Do</h2>
+                <p>Description of personality type</p>
+      
+            </div>
+            <div class="col-sm-4">
+                <h2>About Us</h2>
+                <address>
+                    <strong>Filler text</strong>
+                    <br>Filler
+                    <br>Filler
+                    <br>
+                </address>
+                
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture1" alt="">
+                <h2 id="nametag1">Marketing Box #1</h2>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture2" alt="">
+                <h2 id="nametag2">Marketing Box #2</h2>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture3" alt="">
+                <h2 id="nametag3">Marketing Box #3</h2>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            
+            <div class="text" align="middle" style="padding-bottom: 5px"><i>We stand upon the shoulders of giants.</i></div>
             <div class="row" align="middle">
-                <div class="col-md-6 col-md-offset-3" align="middle">
-                    <p id="test"></p>
+                 <div>
+                    <a href="http://aws.amazon.com"><img class="nascar" src="../static/aws-logo.png"/></a>
+                    <a href="http://celebritytypes.com"><img class="nascar" src="../static/celebtypes-logo.png"/></a>
+                    <a href="http://thewebminer.com"><img class="nascar" src="../static/webminer-logo-twitter.jpeg"/></a>
+                    <a href="http://twitter.com"><img class="nascar" src="../static/twitter-logo.png"/></a>
+                    <a href="http://scikit-learn.org"><img class="nascar" src="../static/scikit-learn-logo-small.png"/></a>
+                    <a href="http://flask.pocoo.org"><img class="nascar" src="../static/flask-logo.png"/></a>
+                    <a href="http://tweepy.org"/><img class="nascar" style="background-color: darkblue" src="../static/tweepy-logo.png"></a>
                 </div>
             </div>
-        </div>
+            <div class="text fine" align="middle">Hosted on AWS Elastic Beanstalk</div>
         
-        <div class = "container" id="div2" style="padding-top:100px">
-            <div class="row" align="middle">
-                
-                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
-                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
-                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
-                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
-                
-            </div>
-        </div>
-    </body>
+            <div class="text fine" align="middle">Data courtesy CelebrityTypes, TheWebMiner, and Twitter</div>
+        
+            <div class="text fine" align="middle">Powered by Python: scikit-learn, Flask, and Tweepy</div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="../static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js"></script>
     
     <script>
         var resultVar = '{{ result }}';
-        document.getElementById("test").innerHTML = resultVar;
+        var name1 = '{{ name1 }}';
+        var name2 = '{{ name2 }}';
+        var name3 = '{{ name3 }}';
+        var urlpic1 = '{{ pic1 }}';
+        var urlpic2 = '{{ pic2 }}';
+        var urlpic2 = '{{ pic3 }}';
+        
+        document.getElementById("classification").innerHTML = resultVar;
+        document.getElementById("nametag1").innerHTML = "balls";//name1;
+        document.getElementById("nametag2").innerHTML = "balls";//name2;
+        document.getElementById("nametag3").innerHTML = "balls";//name3;
+        document.getElementById("picture1").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
+        document.getElementById("picture2").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
+        document.getElementById("picture3").setAttribute("src", "http://www.celebritytypes.com/files2/larry-page.jpg");
     </script>
-    
-</html>
 
-<script type="text/javascript" src="mechJung.js"></script>
+</body>
+
+</html>
