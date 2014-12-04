@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    <title>Results</title>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    </head>
+   
+    <body>
+        <div class="container" id="div1" style="padding-top: 150px">
+            <div class="row" align="middle">
+                <div class="col-md-6 col-md-offset-3" align="middle">
+                    <p id="test"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class = "container" id="div2" style="padding-top:100px">
+            <div class="row" align="middle">
+                
+                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
+                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
+                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
+                    <img src="http://www.celebritytypes.com/philosophers_files/einstein.jpg" style="width:150px; padding-left:30px">
+                
+            </div>
+        </div>
+    </body>
+    
+    <script>
+        var resultVar = '{{ result }}';
+        document.getElementById("test").innerHTML = resultVar;
+    </script>
+    
+</html>
+
+<script type="text/javascript" src="mechJung.js"></script>

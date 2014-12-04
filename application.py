@@ -37,7 +37,7 @@ def classify():
 	for pref in prefs:
 		clf = classifiers[pref]['svc']['text']
 		result += clf.predict([doc])[0]
-	return result
+	return flask.render_template('results.html', result=result)
  
 if __name__ == '__main__':
 	application.debug = True
