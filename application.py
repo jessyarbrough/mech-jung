@@ -12,8 +12,6 @@ application = flask.Flask(__name__)
 prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
-types = ['INFP', 'INFJ', 'INTJ', 'INTP', 'ENTP', 'ENTJ', 'ENFJ', 'ENFP', 'ESFP', 'ESFJ', 'ESTJ',
-'ESTP', 'ISTP', 'ISTJ', 'ISFJ', 'ISFP']
 classifiers = {}
 
 for pref in prefs:
@@ -30,14 +28,25 @@ for pref in prefs:
 				pass
 
 personalities = {}
-PersonalitiesDescription = {}
+personalities_description = {}
+quotes = {}
+
+for line in open("quotes_known_only.tsv", 'r'):
+	line = line.split('\t')
+	key = line[1]
+	quote = line[0]
+	if key in quotes.keys():
+		quotes[key].append(quote)
+	else:
+		quotes[key] = []
+		quotes[key].append(quote)
 
 for line in open("PersonalitiesDescription.tsv", "r"):
 	line = line.split('\t')
 	key = line[0]
 	description = line[1]
 	url = line[2].strip()
-	PersonalitiesDescription[key] = (description, url)
+	personalities_description[key] = (description, url)
 
 with open("Personalities.tsv", "rb") as f:
     for line in f:
@@ -61,13 +70,14 @@ def classify():
 		clf = classifiers[pref]['svc']['text']
 		result += clf.predict([doc])[0]
 	x = 1
-	description = PersonalitiesDescription[result][0]
-	description_url = PersonalitiesDescription[result][1]
+	description = personalities_description[result][0]
+	description_url = personalities_description[result][1]
 	people = personalities[result]
 	length = len(people)
 	rand1 = random.randint(0, length/3)
 	rand2 = random.randint(length/3+1, 2*length/3)
 	rand3 = random.randint(2*length/3+1, length-1)
+
 	print people[rand1][0][0]
 	name1 = people[rand1][0][0]
 	url1 = "http://www.celebritytypes.com/" + people[rand1][0][1]
@@ -77,7 +87,26 @@ def classify():
 	name3 = people[rand3][0][0]
 	url3 = "http://www.celebritytypes.com/" + people[rand3][0][1]
 
-	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3, description=description, description_url=description_url)
+	if name1 not in quotes.keys():
+		quote1 = ''
+	else:
+		rand4 = random.randint(0, len(quotes[name1])-1)
+		quote1 = '"' + quotes[name1][rand4] + '"'
+	
+	if name2 not in quotes.keys():
+		quote2 = ''
+	else:
+		rand5 = random.randint(0, len(quotes[name2])-1)
+		quote2 = '"' + quotes[name2][rand5] + '"'
+	
+	if name3 not in quotes.keys():
+		quote3 = ''
+	else:
+		rand6 = random.randint(0, len(quotes[name3])-1)
+		quote3 = '"' + quotes[name3][rand6] + '"'
+
+	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3,
+		description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3)
  
 if __name__ == '__main__':
 	application.debug = True
