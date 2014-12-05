@@ -1,4 +1,4 @@
-mech-jung
+Mechanical Jung
 =========
 
 Armchair psychology at its finest
