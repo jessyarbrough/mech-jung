@@ -1,5 +1,5 @@
 import flask, random, socket, tweepy
-# import pickle, numpy, scipy, sklearn, tweepy
+# import pickle, numpy, scipy, sklearn
 from pickle import loads as pkl_load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
@@ -144,7 +144,7 @@ def classify_tweets():
 	for t in tweets:
 		textFromTweets.append(t.text)
     
-    #then use tweets to classify user
+    	#then use tweets to classify user
     
 	return 'Coming soon!'
 
