@@ -1,10 +1,18 @@
-import flask, random, socket
+import flask, random, socket, tweepy
 # import pickle, numpy, scipy, sklearn, tweepy
 from pickle import loads as pkl_load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
+
+consumer_key = ""
+consumer_secret = ""
+access_key = ""
+access_secret = ""
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_key, access_secret)
+api = tweepy.API(auth)
  
 application = flask.Flask(__name__)
 
@@ -122,6 +130,19 @@ def classify():
 def classify_tweets():
 	# if not is_local_req(flask.request.remote_addr):
 	# 	return err_nedry
+    
+    #handle = flask.request.form['text']
+    
+	tweets = []
+	fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
+	tweets.extend(fetchedTweets)
+    
+	textFromTweets = []
+	for t in tweets:
+		textFromTweets.append(t.text)
+    
+    #then use tweets to classify user
+    
 	return 'Coming soon!'
 
 if __name__ == '__main__':
