@@ -83,8 +83,8 @@ def classify():
 	# if not is_local_req(flask.request.remote_addr):
 	# 	return err_nedry
 	doc = flask.request.form['text']
-	# IMPORTANT: NEED VALIDATION OF TEXT INPUT (NUM OF CHARS <= 100000)
-	# large amounts of text may degrade classifier performance
+	if len(doc) > 100000:
+		doc = doc[:100000]
 	result = ''
 	for pref in prefs:
 		clf = classifiers[pref]['svc']['text']
@@ -133,12 +133,20 @@ def classify_tweets():
 	# if not is_local_req(flask.request.remote_addr):
 	# 	return err_nedry
     
-    #handle = flask.request.form['text']
-    
-	tweets = []
+    	handle = flask.request.form['handle']
+    	if len(handle) > 15:
+    		return render_template('index.html', handle_placeholder = 'Twitter handle')
+    	
+    	tweets = []
 	fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
 	tweets.extend(fetchedTweets)
-    
+    	
+    	# if NO USER BY THAT HANDLE:
+    	# 	return render_template('index.html', handle_placeholder = 'User not found')
+    	
+    	# if NO TWEETS BY USER:
+    	# 	return render_template('index.html', handle_placeholder = 'No tweets for user')
+    		
 	textFromTweets = []
 	for t in tweets:
 		textFromTweets.append(t.text)
