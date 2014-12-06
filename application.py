@@ -83,6 +83,8 @@ def classify():
 	# if not is_local_req(flask.request.remote_addr):
 	# 	return err_nedry
 	doc = flask.request.form['text']
+	# IMPORTANT: NEED VALIDATION OF TEXT INPUT (NUM OF CHARS <= 100000)
+	# large amounts of text may degrade classifier performance
 	result = ''
 	for pref in prefs:
 		clf = classifiers[pref]['svc']['text']
