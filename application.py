@@ -16,8 +16,6 @@ api = tweepy.API(auth)
  
 application = flask.Flask(__name__)
 
-err_nedry = 'na uh uh, say the magic word'
-
 prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
@@ -80,8 +78,6 @@ def hello_world():
 
 @application.route('/results', methods = ['POST'])
 def classify():
-	# if not is_local_req(flask.request.remote_addr):
-	# 	return err_nedry
 	doc = flask.request.form['text']
 	if len(doc) > 100000:
 		doc = doc[:100000]
@@ -130,9 +126,6 @@ def classify():
  
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
-	# if not is_local_req(flask.request.remote_addr):
-	# 	return err_nedry
-    
     	handle = flask.request.form['handle']
     	if len(handle) > 15:
     		return render_template('index.html', handle_placeholder = 'Twitter handle')
