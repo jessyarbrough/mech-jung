@@ -128,19 +128,19 @@ def classify():
 def classify_tweets():
 	handle = flask.request.form['handle']
 	if len(handle) > 15:
-		return render_template('index.html', handle_placeholder = 'Twitter handle')
+		return flask.render_template('index.html', handle_placeholder = 'Twitter handle')
     	
 	tweets = []
 
 	checkifExists = search_users(handle)
 	if not checkifExists:
-		return render_template('index.html', handle_placeholder = 'User not found')
+		return flask.render_template('index.html', handle_placeholder = 'User not found')
 	else:
 		fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
 		tweets.extend(fetchedTweets)
 
 	if not tweets:
-		return render_template('index.html', handle_placeholder = 'No tweets for user')
+		return flask.render_template('index.html', handle_placeholder = 'No tweets for user')
 
     	# if NO USER BY THAT HANDLE:
     	# 	return render_template('index.html', handle_placeholder = 'User not found')
