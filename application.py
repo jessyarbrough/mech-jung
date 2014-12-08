@@ -126,26 +126,40 @@ def classify():
  
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
-    	handle = flask.request.form['handle']
-    	if len(handle) > 15:
-    		return render_template('index.html', handle_placeholder = 'Twitter handle')
+	handle = flask.request.form['handle']
+	if len(handle) > 15:
+		return render_template('index.html', handle_placeholder = 'Twitter handle')
     	
-    	tweets = []
-	fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
-	tweets.extend(fetchedTweets)
-    	
+	tweets = []
+
+	checkifExists = search_users(handle)
+	if not checkifExists:
+		return render_template('index.html', handle_placeholder = 'User not found')
+	else:
+		fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
+		tweets.extend(fetchedTweets)
+
+	if not tweets:
+		return render_template('index.html', handle_placeholder = 'No tweets for user')
+
     	# if NO USER BY THAT HANDLE:
     	# 	return render_template('index.html', handle_placeholder = 'User not found')
     	
     	# if NO TWEETS BY USER:
     	# 	return render_template('index.html', handle_placeholder = 'No tweets for user')
-    		
+
+		
+
 	textFromTweets = []
 	for t in tweets:
 		textFromTweets.append(t.text)
-    
-    	#then use tweets to classify user
-    
+	'''
+	for pref in prefs:
+		clf = classifiers[pref]['text']['tweets']
+		result += clf.predict([doc])[0]
+	'''
+	#then use tweets to classify user
+	#return flask.render_template('results.html', result=result)
 	return 'Coming soon!'
 
 if __name__ == '__main__':
