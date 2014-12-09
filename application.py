@@ -1,12 +1,13 @@
-import flask, random, socket, tweepy
+import flask, random, socket, tweepy, os
 # import pickle, numpy, scipy, sklearn
 from pickle import loads as pkl_load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
-import random, os
- 
+from preprocessor import transform
+transform('test', 'tokens_meaningful')
+
 application = flask.Flask(__name__)
 
 params = {}
