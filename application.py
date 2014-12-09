@@ -6,10 +6,10 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
 
-consumer_key = "c61ODzZXfHmjeAnPoCMjbJo6z"
-consumer_secret = "mreeNeGzyZSIo4zoLCJoYPkoW7rQYpo0mTC2srpjQZkFdWvGL7"
-access_key = "32231739-ruC4UHN2czydUMEZ7T6Odarjnc9GiWQH8DmAxC97k"
-access_secret = "AqV6WP0IXnqRwj3UFmbvRtAXe9uBKJBLUcUvjAbJaFleA"
+consumer_key = ""
+consumer_secret = ""
+access_key = ""
+access_secret = ""
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
