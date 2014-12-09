@@ -15,6 +15,7 @@ prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
 classifiers = {}
+committee = []
 
 for pref in prefs:
 	classifiers[pref] = {}
@@ -59,13 +60,6 @@ with open("data/Personalities.tsv", "rb") as f:
             personalities[key] += [[values]]
         else:
             personalities[key] = [[values]]
-
-def is_local_req(remote_addr):
-	remote_addr = str(remote_addr)
-	local_addr = str(socket.gethostbyname(socket.gethostname()))
-	remote_addr = remote_addr.split('.')
-	local_addr = local_addr.split('.')
-	return remote_addr[0] == local_addr[0] and remote_addr[1] == local_addr[1]
 
 @application.route('/')
 def hello_world():
