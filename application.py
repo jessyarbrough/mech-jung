@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
-import random
+import random, os
  
 application = flask.Flask(__name__)
 
