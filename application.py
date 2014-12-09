@@ -5,16 +5,11 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
-
-consumer_key = ""
-consumer_secret = ""
-access_key = ""
-access_secret = ""
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_key, access_secret)
-api = tweepy.API(auth)
+import random
  
 application = flask.Flask(__name__)
+
+params = {}
 
 prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
@@ -130,6 +125,20 @@ def classify_tweets():
 	handle = flask.request.form['handle']
 	if len(handle) > 15 or len(handle) == 0:
 		return flask.render_template('index.html', handle_placeholder = 'Twitter handle')
+    
+	parameter = random.choice(['1'])
+	param = params[parameter]
+	consumer_key = param[0]
+	print param[0]
+	consumer_secret = param[1]
+	print param[1]
+	access_key = param[2]
+	print param[2]
+	access_secret = param[3]
+	print param[3]
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_key, access_secret)
+	api = tweepy.API(auth)
     	
 	tweets = []
 
@@ -241,5 +250,13 @@ def classify_tweets():
 #return personalityStr
 
 if __name__ == '__main__':
+	with open("keys.txt", "rb") as f:
+		count = 1
+		for line in f:
+			params[str(count)] = line.split('.')
+			count += 1
 	application.debug = True
 	application.run(host='0.0.0.0')
+else:
+	param1 = os.environ.get('PARAM1').split('.')
+	params['1'] = param1
