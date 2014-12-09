@@ -6,10 +6,10 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
 
-consumer_key = ""
-consumer_secret = ""
-access_key = ""
-access_secret = ""
+consumer_key = "c61ODzZXfHmjeAnPoCMjbJo6z"
+consumer_secret = "mreeNeGzyZSIo4zoLCJoYPkoW7rQYpo0mTC2srpjQZkFdWvGL7"
+access_key = "32231739-ruC4UHN2czydUMEZ7T6Odarjnc9GiWQH8DmAxC97k"
+access_secret = "AqV6WP0IXnqRwj3UFmbvRtAXe9uBKJBLUcUvjAbJaFleA"
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
@@ -33,6 +33,7 @@ for pref in prefs:
 				classifiers[pref][clf_type][doc_type] = clf
 			except IOError:
 				pass
+
 
 personalities = {}
 personalities_description = {}
@@ -132,35 +133,112 @@ def classify_tweets():
     	
 	tweets = []
 
-	checkifExists = search_users(handle)
+	checkifExists = api.search_users(handle)
 	if not checkifExists:
 		return flask.render_template('index.html', handle_placeholder = 'User not found')
 	else:
-		fetchedTweets = api.user_timeline(screen_name = 'google', count = 100)
+		fetchedTweets = api.user_timeline(screen_name = handle, count = 100)
 		tweets.extend(fetchedTweets)
 
 	if not tweets:
 		return flask.render_template('index.html', handle_placeholder = 'No tweets for user')
 
-    	# if NO USER BY THAT HANDLE:
-    	# 	return render_template('index.html', handle_placeholder = 'User not found')
-    	
-    	# if NO TWEETS BY USER:
-    	# 	return render_template('index.html', handle_placeholder = 'No tweets for user')
-
-		
-
 	textFromTweets = []
 	for t in tweets:
 		textFromTweets.append(t.text)
-	'''
+
+	length = len(textFromTweets)
+
+	result = ''
+	resultList = []
+	characterDict = {}
+
 	for pref in prefs:
-		clf = classifiers[pref]['text']['tweets']
-		result += clf.predict([doc])[0]
-	'''
-	#then use tweets to classify user
-	#return flask.render_template('results.html', result=result)
-	return 'Coming soon!'
+		clf = classifiers[pref]['svc']['tweet']
+		result += str(clf.predict(textFromTweets))
+
+	icount = list(result).count('I')
+	ecount = list(result).count('E')
+	ncount = list(result).count('N')
+	scount = list(result).count('S')
+	fcount = list(result).count('F')
+	tcount = list(result).count('T')
+	jcount = list(result).count('J')
+	pcount = list(result).count('P')
+
+	personalityStr = ''
+	if icount > ecount:
+		personalityStr += 'I'
+	elif icount == ecount:
+		personalityStr += '*'
+	else:
+		personalityStr += 'E'
+
+	if ncount > scount:
+		personalityStr += 'N'
+	elif ncount == scount:
+		personalityStr += '*'
+	else:
+		personalityStr += 'S'
+
+	if fcount > tcount:
+		personalityStr += 'F'
+	elif fcount == tcount:
+		personalityStr += '*'
+	else:
+		personalityStr += 'T'
+
+	if jcount > pcount:
+		personalityStr += 'J'
+	elif jcount == pcount:
+		personalityStr += '*'
+	else:
+		personalityStr += 'P'
+
+	result = personalityStr
+
+	x = 1
+	description = personalities_description[result][0]
+	description_url = personalities_description[result][1]
+	people = personalities[result]
+	length = len(people)
+	rand1 = random.randint(0, length/3)
+	rand2 = random.randint(length/3+1, 2*length/3)
+	rand3 = random.randint(2*length/3+1, length-1)
+    
+	print people[rand1][0][0]
+	name1 = people[rand1][0][0]
+	url1 = "http://www.celebritytypes.com/" + people[rand1][0][1]
+	print url1
+	name2 = people[rand2][0][0]
+	url2 = "http://www.celebritytypes.com/" + people[rand2][0][1]
+	name3 = people[rand3][0][0]
+	url3 = "http://www.celebritytypes.com/" + people[rand3][0][1]
+        
+	if name1 not in quotes.keys():
+		quote1 = ''
+	else:
+		rand4 = random.randint(0, len(quotes[name1])-1)
+		quote1 = '"' + quotes[name1][rand4] + '"'
+
+	if name2 not in quotes.keys():
+		quote2 = ''
+	else:
+		rand5 = random.randint(0, len(quotes[name2])-1)
+		quote2 = '"' + quotes[name2][rand5] + '"'
+
+	if name3 not in quotes.keys():
+		quote3 = ''
+	else:
+		rand6 = random.randint(0, len(quotes[name3])-1)
+		quote3 = '"' + quotes[name3][rand6] + '"'
+
+
+#return flask.render_template('twitterResults.html', result=result)
+	return flask.render_template('twitterResults.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3,
+                             description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3)
+#	return 'Coming soon!'
+#return personalityStr
 
 if __name__ == '__main__':
 	application.debug = True

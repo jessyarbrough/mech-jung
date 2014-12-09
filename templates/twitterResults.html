@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<style>
+    .nascar {
+        height: 50px;
+    }
+</style>
+
+
+<head>
+
+    <title>Results</title>
+    <meta charset="utf-8" />
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../static/css/business-frontpage.css" rel="stylesheet">
+    <script src='../static/js/Chart.min.js'></script>
+    
+
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <!-- <span class="sr-only">Toggle navigation</span> -->
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/">Back</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <h2 id="classification">What We Do</h2>
+                <p>{{description}}
+                    <br>Learn more <a href="{{description_url}}">here</a>.
+                </p>
+      
+            </div>
+            <div class="col-sm-4">
+                <h2>About Us</h2>
+                <address>
+                    <p>We is a crew of Texas A&M hustlas wit a interest up in tha merger between pseudo science n' data processing. This tool, Mechanical Jung, takes data input from tha user, either a text snippet or they tweets, compares they input ta known Jungian personalities, then outputs a Jungian personalitizzle type. Well shiiiit, it do dis by rockin a variety of classifers ta determine specific type. Da classifiers is trained on a thugged-out database of over 8000 unique quotes from tha known personalitizzles n' twitta data mined from personalitizzles wit twitta accounts, n' you can put dat on yo' toast. Da result be a simple, somewhat accurate personalitizzle profila n' shit. Go Jung yo ass!
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-Translation courtesy Gizoogle.net</p>
+                </address>
+                
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture1" alt="" style="width:200px;height:290">
+                <h2 id="nametag1" style="text-align:center">Marketing Box #1</h2>
+                <p style="text-align:center">
+                    <br>
+                    {{quote1}}
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture2" alt="" style="width:200px;height:290">
+                <h2 id="nametag2" style="text-align:center">Marketing Box #2</h2>
+                <p style="text-align:center">
+                    <br>
+                    {{quote2}}
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive img-center" id="picture3" alt="" style="width:200px;height:290">
+                <h2 id="nametag3" style="text-align:center">Marketing Box #3</h2>
+                <p style="text-align:center">
+                    <br>
+                    {{quote3}}
+                </p>
+            </div>
+        </div>
+        
+         <div class="row" style="padding-top: 40px">
+                <div  align="middle">
+                    <canvas id="pieChart" width="600" height="400" align="middle"></canvas>
+                </div>
+            </div>
+
+        
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            
+            <div class="text" align="middle" style="padding-bottom: 5px"><i>We stand upon the shoulders of giants.</i></div>
+            <div class="row" align="middle">
+                 <div>
+                    <a href="http://aws.amazon.com"><img class="nascar" src="../static/aws-logo.png"/></a>
+                    <a href="http://celebritytypes.com"><img class="nascar" src="../static/celebtypes-logo.png"/></a>
+                    <a href="http://thewebminer.com"><img class="nascar" src="../static/webminer-logo-twitter.jpeg"/></a>
+                    <a href="http://twitter.com"><img class="nascar" src="../static/twitter-logo.png"/></a>
+                    <a href="http://scikit-learn.org"><img class="nascar" src="../static/scikit-learn-logo-small.png"/></a>
+                    <a href="http://flask.pocoo.org"><img class="nascar" src="../static/flask-logo.png"/></a>
+                    <a href="http://tweepy.org"/><img class="nascar" style="background-color: darkblue" src="../static/tweepy-logo.png"></a>
+                </div>
+            </div>
+            <div class="text fine" align="middle">Hosted on AWS Elastic Beanstalk</div>
+        
+            <div class="text fine" align="middle">Data courtesy CelebrityTypes, TheWebMiner, and Twitter</div>
+        
+            <div class="text fine" align="middle">Powered by Python: scikit-learn, Flask, and Tweepy</div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    
+    
+    <script>
+        var resultVar = '{{ result }}';
+        var name1 = '{{ name1 }}';
+        var name2 = '{{ name2 }}';
+        var name3 = '{{ name3 }}';
+        var urlpic1 = '{{ url1 }}';
+        var urlpic2 = '{{ url2 }}';
+        var urlpic3 = '{{ url3 }}';
+        var typedescription = '{{ description }}';
+        var urldescription = '{{ description_url }}'
+        
+        document.getElementById("classification").innerHTML = resultVar;
+        document.getElementById("nametag1").innerHTML = name1;
+        document.getElementById("nametag2").innerHTML = name2;
+        document.getElementById("nametag3").innerHTML = name3;
+        document.getElementById("picture1").setAttribute("src", urlpic1);
+        document.getElementById("picture2").setAttribute("src", urlpic2);
+        document.getElementById("picture3").setAttribute("src", urlpic3);
+        document.getElementById("description").innerHTML = typedescription;
+        document.getElementById("description_url").innerHTML = urldescription;
+    </script>
+    
+    <script scr="../static/Chart.min.js">
+        
+                var pieData = [
+                    {
+                        value: 25,
+                        color:"#878BB6",
+                        label:"personality type 1"
+                    },
+                    {
+                        value : 25,
+                        color : "#4ACAB4",
+                        label : "personality type 2"
+                    },
+                    {
+                        value : 25,
+                        color : "#FF8153",
+                        label : "personality type 3"
+                    },
+                    {
+                        value : 25,
+                        color : "#FFEA88",
+                        label : "personality type 4"
+                    }
+                ];
+  
+                var pieOptions = {
+                     segmentShowStroke : false,
+                     animateScale : true
+                }
+          
+                var countries= document.getElementById("pieChart").getContext("2d");
+                new Chart(countries).Pie(pieData, pieOptions);
+    
+    
+    </script>
+    
+    <script src="../static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
