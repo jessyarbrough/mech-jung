@@ -68,8 +68,8 @@ def hello_world():
 @application.route('/results', methods = ['POST'])
 def classify():
 	doc = flask.request.form['text']
-	if len(doc) > 100000:
-		doc = doc[:100000]
+	if len(doc) > 10000:
+		doc = doc[:10000]
 	result = ''
 	for pref in prefs:
 		clf = classifiers[pref]['svc']['text']
