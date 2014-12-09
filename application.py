@@ -24,17 +24,16 @@ for pref in prefs:
 			classifiers[pref][clf_type][doc_type] = None
 			try:
 				fname = pref + '.' + clf_type + '.' + doc_type + '.pkl'
-				clf = pkl_load(open(fname).read())
+				clf = pkl_load(open('classifiers/' + fname).read())
 				classifiers[pref][clf_type][doc_type] = clf
 			except IOError:
 				pass
-
 
 personalities = {}
 personalities_description = {}
 quotes = {}
 
-for line in open("quotes_known_only.tsv", 'r'):
+for line in open("data/quotes_known_only.tsv", 'r'):
 	line = line.split('\t')
 	key = line[1]
 	quote = line[0]
@@ -44,14 +43,14 @@ for line in open("quotes_known_only.tsv", 'r'):
 		quotes[key] = []
 		quotes[key].append(quote)
 
-for line in open("PersonalitiesDescription.tsv", "r"):
+for line in open("data/PersonalitiesDescription.tsv", "r"):
 	line = line.split('\t')
 	key = line[0]
 	description = line[1]
 	url = line[2].strip()
 	personalities_description[key] = (description, url)
 
-with open("Personalities.tsv", "rb") as f:
+with open("data/Personalities.tsv", "rb") as f:
     for line in f:
         line = line.split('\t')
         key = line[1]
