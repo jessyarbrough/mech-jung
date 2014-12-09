@@ -53,62 +53,76 @@
 
     <!-- Page Content -->
     <div class="container">
-
-        <hr>
-
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                 <h2 id="classification">What We Do</h2>
                 <p>{{description}}
                     <br>Learn more <a href="{{description_url}}">here</a>.
                 </p>
-      
-            </div>
-            <div class="col-sm-4">
-                <h2>About Us</h2>
-                <address>
-                    <p>We is a crew of Texas A&M hustlas wit a interest up in tha merger between pseudo science n' data processing. This tool, Mechanical Jung, takes data input from tha user, either a text snippet or they tweets, compares they input ta known Jungian personalities, then outputs a Jungian personalitizzle type. Well shiiiit, it do dis by rockin a variety of classifers ta determine specific type. Da classifiers is trained on a thugged-out database of over 8000 unique quotes from tha known personalitizzles n' twitta data mined from personalitizzles wit twitta accounts, n' you can put dat on yo' toast. Da result be a simple, somewhat accurate personalitizzle profila n' shit. Go Jung yo ass!
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-Translation courtesy Gizoogle.net</p>
-                </address>
-                
             </div>
         </div>
         <!-- /.row -->
 
-        <hr>
-
         <div class="row">
+            <div class="col-sm-12" align="middle">
+                <h3>Prediction distributions</h3>
+                <h5>(I/E, N/S, F/T, J/P)</h5>
+                <h6>Scroll over charts for more information.</h6>
+         
+  
+                <canvas id="ieChart" width="200" height="200" align="middle">I and E</canvas>
+             
+                <canvas id="nsChart" width="200" height="200" align="middle">N and S</canvas>
+      
+                <canvas id="ftChart" width="200" height="200" align="middle">F and T</canvas>
+
+                <canvas id="jpChart" width="200" height="200" align="middle">J and P</canvas>
+               
+            </div>
+        </div>
+        
+       <!-- 
+        <div class="row">
+            <div class="col-sm-6" align="right">
+                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I and E &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; N and S</h4>
+            </div>
+            <div class="col-sm-6" align="left">
+                <h4>F and T &zwnj; J and P</h4>
+            </div>
+        </div> -->
+        
+        <div class="row" style="padding-top:10px">
+            
             <div class="col-sm-4">
+                
                 <img class="img-circle img-responsive img-center" id="picture1" alt="" style="width:200px;height:290">
                 <h2 id="nametag1" style="text-align:center">Marketing Box #1</h2>
                 <p style="text-align:center">
                     <br>
                     {{quote1}}
-                </p>
+                </p> 
             </div>
             <div class="col-sm-4">
+                
                 <img class="img-circle img-responsive img-center" id="picture2" alt="" style="width:200px;height:290">
                 <h2 id="nametag2" style="text-align:center">Marketing Box #2</h2>
                 <p style="text-align:center">
                     <br>
                     {{quote2}}
-                </p>
+                </p> 
             </div>
             <div class="col-sm-4">
+                
                 <img class="img-circle img-responsive img-center" id="picture3" alt="" style="width:200px;height:290">
                 <h2 id="nametag3" style="text-align:center">Marketing Box #3</h2>
                 <p style="text-align:center">
                     <br>
                     {{quote3}}
-                </p>
-            </div>
-        </div>
+                </p> 
+            </div> 
+        </div> 
         
-         <div class="row" style="padding-top: 40px">
-                <div  align="middle">
-                    <canvas id="pieChart" width="600" height="400" align="middle"></canvas>
-                </div>
-            </div>
+         
 
         
         <!-- /.row -->
@@ -168,36 +182,74 @@
     
     <script scr="../static/Chart.min.js">
         
-                var pieData = [
+                var ieData = [
                     {
-                        value: 25,
-                        color:"#878BB6",
-                        label:"personality type 1"
+                        value: parseInt('{{ icount }}'),
+                        color:"#949FB1",
+                        label:"I"
                     },
                     {
-                        value : 25,
-                        color : "#4ACAB4",
-                        label : "personality type 2"
-                    },
-                    {
-                        value : 25,
-                        color : "#FF8153",
-                        label : "personality type 3"
-                    },
-                    {
-                        value : 25,
-                        color : "#FFEA88",
-                        label : "personality type 4"
+                        value : parseInt('{{ ecount }}'),
+                        color : "#4D5360",
+                        label : "E"
                     }
                 ];
   
+                var nsData = [
+                    {
+                        value: parseInt('{{ ncount }}'),
+                        color:"#878BB6",
+                        label:"N"
+                    },
+                    {
+                        value : parseInt('{{ scount }}'),
+                        color : "#4ACAB4",
+                        label : "S"
+                    }
+                ];
+        
+                var ftData = [
+                    {
+                        value: parseInt('{{ fcount }}'),
+                        color:"#336699",
+                        label:"F"
+                    },
+                    {
+                        value : parseInt('{{ tcount }}'),
+                        color : "#FDB45C",
+                        label : "T"
+                    }
+                ];
+        
+                var jpData = [
+                    {
+                        value: parseInt('{{ jcount }}'),
+                        color:"#89D7ED",
+                        label:"J"
+                    },
+                    {
+                        value : parseInt('{{ pcount }}'),
+                        color : "#6A5A5B",
+                        label : "P"
+                    }
+                ];  
+        
                 var pieOptions = {
                      segmentShowStroke : false,
                      animateScale : true
                 }
           
-                var countries= document.getElementById("pieChart").getContext("2d");
-                new Chart(countries).Pie(pieData, pieOptions);
+                var ieChart = document.getElementById("ieChart").getContext("2d");
+                new Chart(ieChart).Pie(ieData, pieOptions);
+        
+                var nsChart = document.getElementById("nsChart").getContext("2d");
+                new Chart(nsChart).Pie(nsData, pieOptions);
+        
+                var ftChart = document.getElementById("ftChart").getContext("2d");
+                new Chart(ftChart).Pie(ftData, pieOptions);
+        
+                var jpChart = document.getElementById("jpChart").getContext("2d");
+                new Chart(jpChart).Pie(jpData, pieOptions);
     
     
     </script>

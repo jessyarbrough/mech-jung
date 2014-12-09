@@ -128,7 +128,7 @@ def classify():
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
 	handle = flask.request.form['handle']
-	if len(handle) > 15:
+	if len(handle) > 15 or len(handle) == 0:
 		return flask.render_template('index.html', handle_placeholder = 'Twitter handle')
     	
 	tweets = []
@@ -236,7 +236,7 @@ def classify_tweets():
 
 #return flask.render_template('twitterResults.html', result=result)
 	return flask.render_template('twitterResults.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3,
-                             description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3)
+                             description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3, icount=icount, ecount=ecount, ncount=ncount, scount=scount, fcount=fcount, tcount=tcount, jcount=jcount, pcount=pcount)
 #	return 'Coming soon!'
 #return personalityStr
 
