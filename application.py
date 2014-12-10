@@ -5,7 +5,23 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
 from preprocessor import transform, processes as lang_processes
+from nltk.downloader import Downloader as NltkDownloader
 from build_committee import param_sets, prefs as bc_prefs
+
+nltk_packages = [
+	'punkt',
+	'maxent_treebank_pos_tagger',
+	'universal_tagset',
+	'wordnet'
+]
+nltk_dl = NltkDownloader()
+
+for package in nltk_packages:
+	nltk_dl.download(package)
+
+if __name__ != '__main__':
+	import nltk
+	nltk.data.path.append('/home/ec2-user/nltk_data')
 
 application = flask.Flask(__name__)
 
