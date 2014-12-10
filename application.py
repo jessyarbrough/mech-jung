@@ -111,15 +111,18 @@ def classify():
 	for c in classes:
 		votes[c] = 0
 	votes_by_clf = {}
+	results_by_clf = {}
 	for params in committee:
 		votes_by_clf[params] = {}
+		results_by_clf[params] = ''
 		for c in classes:
 			votes_by_clf[params][c] = 0
-		for pref in committee[params]:
+		for pref in bc_prefs:
 			process = params.split('.')[0]
 			prediction = committee[params][pref][0].predict([docs[process]])[0]
 			votes[prediction] += committee[params][pref][1]
 			votes_by_clf[params][prediction] += committee[params][pref][1]
+			results_by_clf[params] += prediction
 	result = ''
 	for pref in bc_prefs:
 		if votes[pref[0]] > votes[pref[1]]:
@@ -130,16 +133,15 @@ def classify():
 	docs_parts_all = (docs['parts_all'])[:140] + '...'
 	docs_tokens_meaningful = (docs['tokens_meaningful'])[:140] + '...'
 	table_data = []
-	table_header = list(classes)
-	table_header.insert(0, '(language process).(ngram lo).(ngram hi).(classifier type).(svm parameter c)')
+	table_header = ['Classifier', 'Result']
+	table_header.extend(classes)
 	table_data.append(table_header)
 	for params in committee:
-		row = [params]
+		row = [params, results_by_clf[params]]
 		for c in classes:
 			row.append(str(votes_by_clf[params][c]))
 		table_data.append(tuple(row))
-	table_footer = []
-	table_footer.append('all')
+	table_footer = ['All', result]
 	for c in classes:
 		table_footer.append((votes[c]))
 	table_data.append(table_footer)
