@@ -5,9 +5,13 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
 from preprocessor import transform, processes as lang_processes
-from nltk import downloader as nltk_dl
+from nltk import Downloader as NltkDownloader
 from build_committee import param_sets, prefs as bc_prefs
 
+nltk_dl = NltkDownloader()
+nltk_dir = '/usr/lib/nltk_data'
+if __name__ == '__main__':
+	nltk_dir = nltk_dl.default_download_dir()
 nltk_packages = [
 	'punkt',
 	'maxent_treebank_pos_tagger',
