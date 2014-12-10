@@ -17,9 +17,9 @@ nltk_packages = [
 nltk_dl = None
 
 if __name__ == '__main__':
-	nltk_dl = NltkDownloader(download_dir = '/usr/lib/nltk_data')
+	nltk_dl = NltkDownloader()
 else:
-	nltk_dl = NltkDownloader
+	nltk_dl = NltkDownloader(download_dir = '/usr/lib/nltk_data')
 
 for package in nltk_packages:
 	nltk_dl.download(package)
