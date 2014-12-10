@@ -14,14 +14,15 @@ nltk_packages = [
 	'universal_tagset',
 	'wordnet'
 ]
-nltk_dl = NltkDownloader()
+nltk_dl = None
+
+if __name__ == '__main__':
+	nltk_dl = NltkDownloader(download_dir = '/usr/lib/nltk_data')
+else:
+	nltk_dl = NltkDownloader
 
 for package in nltk_packages:
 	nltk_dl.download(package)
-
-if __name__ != '__main__':
-	import nltk
-	nltk.data.path.append('/home/ec2-user/nltk_data')
 
 application = flask.Flask(__name__)
 
