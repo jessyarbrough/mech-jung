@@ -61,27 +61,21 @@
         <hr>
 
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                 <h2 id="classification">What We Do</h2>
                 <p>{{description}}
                     <br>Learn more <a href="{{description_url}}">here</a>.
                 </p>
       
             </div>
-            <div class="col-sm-4">
-                <h2>About Us</h2>
-                <address>
-                    <p>We is a crew of Texas A&M hustlas wit a interest up in tha merger between pseudo science n' data processing. This tool, Mechanical Jung, takes data input from tha user, either a text snippet or they tweets, compares they input ta known Jungian personalities, then outputs a Jungian personalitizzle type. Well shiiiit, it do dis by rockin a variety of classifers ta determine specific type. Da classifiers is trained on a thugged-out database of over 8000 unique quotes from tha known personalitizzles n' twitta data mined from personalitizzles wit twitta accounts, n' you can put dat on yo' toast. Da result be a simple, somewhat accurate personalitizzle profila n' shit. Go Jung yo ass!
-                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-Translation courtesy Gizoogle.net</p>
-                </address>
-                
-            </div>
         </div>
-        <!-- /.row -->
 
         <hr>
 
         <div class="row">
+            <div class="col-sm-12" align="middle">
+                <h2>Celebrity {{result}}s</h2>
+            </div>
             <div class="col-sm-4">
                 <img class="img-circle img-responsive img-center" id="picture1" alt="" style="width:200px;height:290">
                 <h2 id="nametag1" style="text-align:center">Marketing Box #1</h2>
@@ -107,7 +101,48 @@
                 </p>
             </div>
         </div>
-        <!-- /.row -->
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <strong>You entered: </strong>{{docs_tokens_all}}<br>
+                <strong>Part-of-speech breakdown: </strong>{{docs_parts_all}}<br>
+                <strong>Primary words (NOUN/ADJ): </strong>{{docs_tokens_meaningful}}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Classifier Voting</h2>
+
+                <p>For the technically inclined...</p
+            </div>
+
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <tr>
+                    {% for i in range(0, 9) %}
+                        <th>{{table_data[0][i]}}</th>
+                    {% endfor %}
+                    </tr>
+                {% for i in range(1, table_data|length - 1) %}
+                    <tr>
+                    {% for j in range(0, 9) %}
+                        <td>{{table_data[i][j]}}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                    <tr>
+                    {% for i in range(0, 9) %}
+                        <th>{{table_data[table_data|length - 1][i]}}</th>
+                    {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
 
         <hr>
 

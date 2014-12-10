@@ -1,22 +1,53 @@
 import flask, random, socket, tweepy, os
-# import pickle, numpy, scipy, sklearn
 from pickle import loads as pkl_load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
-# from preprocessor import transform
-# transform('test', 'tokens_meaningful')
+from preprocessor import transform, processes as lang_processes
+from nltk import downloader as nltk_dl
+from build_committee import param_sets, prefs as bc_prefs
+
+nltk_packages = [
+	'punkt',
+	'maxent_treebank_pos_tagger',
+	'universal_tagset',
+	'wordnet'
+]
+for package in nltk_packages:
+	nltk_dl.download(package)
 
 application = flask.Flask(__name__)
 
-params = {}
+committee = {}
+for params in param_sets:
+	committee[params] = {}
+	votes = 1
+	if params.split('.')[0] == 'tokens_meaningful' and params.split('.')[3] != '93nn':
+		votes = 2
+	for pref in bc_prefs:
+		committee[params][pref] = (None, 0)
+		try:
+			f = open('committee/' + params + '.' + pref + '.pkl')
+			clf = pkl_load(f.read())
+			committee[params][pref] = (clf, votes)
+			f.close()
+		except IOError:
+			pass
 
+classes = []
+for pref in bc_prefs:
+	for c in pref:
+		classes.append(c)
+
+params = {}
 prefs = ['ie', 'ns', 'ft', 'jp']
 clf_types = ['svc', 'nb', 'knn']
 doc_types = ['text', 'tweet']
 classifiers = {}
-committee = []
+personalities = {}
+personalities_description = {}
+quotes = {}
 
 for pref in prefs:
 	classifiers[pref] = {}
@@ -30,10 +61,6 @@ for pref in prefs:
 				classifiers[pref][clf_type][doc_type] = clf
 			except IOError:
 				pass
-
-personalities = {}
-personalities_description = {}
-quotes = {}
 
 for line in open("data/quotes_known_only.tsv", 'r'):
 	line = line.split('\t')
@@ -71,18 +98,62 @@ def classify():
 	doc = flask.request.form['text']
 	if len(doc) > 10000:
 		doc = doc[:10000]
+	docs = {}
+	for process in lang_processes:
+		docs[process] = transform(doc, process)
+	votes = {}
+	for c in classes:
+		votes[c] = 0
+	votes_by_clf = {}
+	for params in committee:
+		votes_by_clf[params] = {}
+		for c in classes:
+			votes_by_clf[params][c] = 0
+		for pref in committee[params]:
+			process = params.split('.')[0]
+			prediction = committee[params][pref][0].predict([docs[process]])[0]
+			votes[prediction] += committee[params][pref][1]
+			votes_by_clf[params][prediction] += committee[params][pref][1]
 	result = ''
-	for pref in prefs:
-		clf = classifiers[pref]['svc']['text']
-		result += clf.predict([doc])[0]
+	for pref in bc_prefs:
+		if votes[pref[0]] > votes[pref[1]]:
+			result += pref[0]
+		else:
+			result += pref[1]
+	docs_tokens_all = (docs['tokens_all'])[:140] + '...'
+	docs_parts_all = (docs['parts_all'])[:140] + '...'
+	docs_tokens_meaningful = (docs['tokens_meaningful'])[:140] + '...'
+	table_data = []
+	table_header = list(classes)
+	table_header.insert(0, '(language process).(ngram lo).(ngram hi).(classifier type).(svm parameter c)')
+	table_data.append(table_header)
+	for params in committee:
+		row = [params]
+		for c in classes:
+			row.append(str(votes_by_clf[params][c]))
+		table_data.append(tuple(row))
+	table_footer = []
+	table_footer.append('all')
+	for c in classes:
+		table_footer.append((votes[c]))
+	table_data.append(table_footer)
+
 	x = 1
 	description = personalities_description[result][0]
 	description_url = personalities_description[result][1]
 	people = personalities[result]
 	length = len(people)
-	rand1 = random.randint(0, length/3)
-	rand2 = random.randint(length/3+1, 2*length/3)
-	rand3 = random.randint(2*length/3+1, length-1)
+	rand1 = random.randint(0, length - 1)
+	rand2 = None
+	while True:
+		rand2 = random.randint(0, length - 1)
+		if rand2 != rand1:
+			break
+	rand3 = None
+	while True:
+		rand3 = random.randint(0, length - 1)
+		if rand3 != rand2 and rand3 != rand1:
+			break
 
 	print people[rand1][0][0]
 	name1 = people[rand1][0][0]
@@ -112,7 +183,8 @@ def classify():
 		quote3 = '"' + quotes[name3][rand6] + '"'
 
 	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3,
-		description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3)
+		description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3, docs_tokens_all=docs_tokens_all,
+		docs_parts_all=docs_parts_all, docs_tokens_meaningful=docs_tokens_meaningful, table_data=table_data)
  
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
