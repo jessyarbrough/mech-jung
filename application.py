@@ -1,4 +1,4 @@
-import flask, random, socket, tweepy, os
+import flask, random, socket, tweepy, os, nltk
 from pickle import loads as pkl_load
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.svm import SVC
@@ -14,12 +14,9 @@ nltk_packages = [
 	'universal_tagset',
 	'wordnet'
 ]
-nltk_dl = None
-
-if __name__ == '__main__':
-	nltk_dl = NltkDownloader()
-else:
-	nltk_dl = NltkDownloader(download_dir = '/usr/lib/nltk_data')
+nltk_path = os.path.dirname(os.path.realpath(__file__)) + '/nltk'
+nltk.data.path.append(nltk_path)
+nltk_dl = NltkDownloader(download_dir = nltk_path)
 
 for package in nltk_packages:
 	nltk_dl.download(package)
