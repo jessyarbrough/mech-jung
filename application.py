@@ -16,9 +16,13 @@ for params in param_sets:
 	for pref in bc_prefs:
 		committee[params][pref] = (None, 0)
 		try:
-			f = open('committee/' + params + '.' + pref + '.pkl')
+			clf_name = params + '.' + pref
+			f = open('committee/' + clf_name + '.pkl')
 			clf = pkl_load(f.read())
+			clf.estimator.steps[0][1].analyzer = analyzer
+			clf.best_estimator_.steps[0][1].analyzer = analyzer
 			committee[params][pref] = (clf, votes)
+			print '[' + __name__ + ']\t' + clf_name + ' loaded'
 			f.close()
 		except IOError:
 			pass

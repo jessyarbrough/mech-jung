@@ -104,10 +104,12 @@ if __name__ == '__main__':
 			pipeline.fit(quotes_data, quotes_target)
 			quotes_prediction = pipeline.predict(quotes_data)
 			print 'done!  accuracy = ' + str(numpy.mean(quotes_prediction == quotes_target))
-			end_time = time.time()
-			print 'elapsed: ' + str(end_time - start_time) + ' s'
+			stop_time = time.time()
+			print 'elapsed: ' + str(stop_time - start_time) + ' s'
 			if i != 3:
 				print '--'
+			pipeline.estimator.steps[0][1].analyzer = 'word'
+			pipeline.best_estimator_.steps[0][1].analyzer = 'word'
 			s = pickle.dumps(pipeline)
 			clf_file = open('committee/' + clf_name + '.pkl', 'w')
 			clf_file.write(s)
