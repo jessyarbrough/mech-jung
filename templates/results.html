@@ -109,7 +109,7 @@
             <div class="col-sm-12">
                 <strong>You entered: </strong>{{docs_tokens_all}}<br>
                 <strong>Part-of-speech breakdown: </strong>{{docs_parts_all}}<br>
-                <strong>Primary words (NOUN/ADJ): </strong>{{docs_tokens_meaningful}}
+                <strong>Densified: </strong>{{docs_tokens_meaningful}}
             </div>
         </div>
 
@@ -119,9 +119,9 @@
             <div class="col-sm-12">
                 <h2>Classifier Voting</h2>
 
-                <p>Mechanical Jung uses multiple classifiers and a simple voting heuristic (2 votes each for its SVM and Naive Bayes classifers trained on stemmed nouns and adjectives, 1 vote each for the rest) to determine the result.  The classifiers use the following encoding:</p>
+                <p>Mechanical Jung uses multiple classifiers and a simple voting heuristic to determine the result.  The classifiers use the following encoding:</p>
 
-                <p><em>(language process).(n-gram low bound).(n-gram high bound).(classifier type).(degree of SVM parameter C)</em></p>
+                <p><em>(classifier type).(language process)</em></p>
             </div>
 
             <div class="col-sm-12">

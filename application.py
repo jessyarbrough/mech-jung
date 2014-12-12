@@ -5,21 +5,7 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import GridSearchCV
 from preprocessor import transform, processes as lang_processes
-from nltk.downloader import Downloader as NltkDownloader
-from build_committee import param_sets, prefs as bc_prefs
-
-nltk_packages = [
-	'punkt',
-	'maxent_treebank_pos_tagger',
-	'universal_tagset',
-	'wordnet'
-]
-nltk_path = os.path.dirname(os.path.realpath(__file__)) + '/nltk'
-nltk.data.path.append(nltk_path)
-nltk_dl = NltkDownloader(download_dir = nltk_path)
-
-for package in nltk_packages:
-	nltk_dl.download(package)
+from build_committee import param_sets, prefs as bc_prefs, analyzer, classes, int_to_class
 
 application = flask.Flask(__name__)
 
@@ -27,8 +13,6 @@ committee = {}
 for params in param_sets:
 	committee[params] = {}
 	votes = 1
-	if params.split('.')[0] == 'tokens_meaningful' and params.split('.')[3] != '93nn':
-		votes = 2
 	for pref in bc_prefs:
 		committee[params][pref] = (None, 0)
 		try:
@@ -38,11 +22,6 @@ for params in param_sets:
 			f.close()
 		except IOError:
 			pass
-
-classes = []
-for pref in bc_prefs:
-	for c in pref:
-		classes.append(c)
 
 params = {}
 prefs = ['ie', 'ns', 'ft', 'jp']
@@ -102,9 +81,7 @@ def classify():
 	doc = flask.request.form['text']
 	if len(doc) > 10000:
 		doc = doc[:10000]
-	docs = {}
-	for process in lang_processes:
-		docs[process] = transform(doc, process)
+	doc_by_process = transform(doc)
 	votes = {}
 	for c in classes:
 		votes[c] = 0
@@ -116,8 +93,8 @@ def classify():
 		for c in classes:
 			votes_by_clf[params][c] = 0
 		for pref in bc_prefs:
-			process = params.split('.')[0]
-			prediction = committee[params][pref][0].predict([docs[process]])[0]
+			process = params.split('.')[1]
+			prediction = int_to_class[pref][committee[params][pref][0].predict([doc_by_process[process]])[0]]
 			votes[prediction] += committee[params][pref][1]
 			votes_by_clf[params][prediction] += committee[params][pref][1]
 			results_by_clf[params] += prediction
@@ -127,9 +104,9 @@ def classify():
 			result += pref[0]
 		else:
 			result += pref[1]
-	docs_tokens_all = (docs['tokens_all'])[:140] + '...'
-	docs_parts_all = (docs['parts_all'])[:140] + '...'
-	docs_tokens_meaningful = (docs['tokens_meaningful'])[:140] + '...'
+	doc_tokens_all = (doc_by_process['tokens_all'])[:140] + '...'
+	doc_parts_all = (doc_by_process['parts_all'])[:140] + '...'
+	doc_tokens_dense = (doc_by_process['tokens_dense'])[:140] + '...'
 	table_data = []
 	table_header = ['Classifier', 'Result']
 	table_header.extend(classes)
@@ -189,8 +166,8 @@ def classify():
 		quote3 = '"' + quotes[name3][rand6] + '"'
 
 	return flask.render_template('results.html', result=result, name1=name1, url1=url1, name2=name2, url2=url2, name3=name3, url3=url3,
-		description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3, docs_tokens_all=docs_tokens_all,
-		docs_parts_all=docs_parts_all, docs_tokens_meaningful=docs_tokens_meaningful, table_data=table_data)
+		description=description, description_url=description_url, quote1=quote1, quote2=quote2, quote3=quote3, docs_tokens_all=doc_tokens_all,
+		docs_parts_all=doc_parts_all, docs_tokens_meaningful=doc_tokens_dense, table_data=table_data)
  
 @application.route('/twitter-results', methods = ['POST'])
 def classify_tweets():
@@ -330,5 +307,7 @@ if __name__ == '__main__':
 	application.debug = True
 	application.run(host='0.0.0.0')
 else:
-	param1 = os.environ.get('PARAM1').split('.')
+	param1 = os.environ.get('PARAM1')
+	if param1 is not None:
+		param1 = param1.split('.')
 	params['1'] = param1
