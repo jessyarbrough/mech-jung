@@ -31,7 +31,7 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-<img style="width: 500px" src="http://mechanicaljung.com/static/mech-jung-logo-large.png"></img>
+<img style="width: 550px" src="http://mechanicaljung.com/static/mech-jung-logo-large.png"></img>
       
         <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>About Mechanical Jung</h3>
@@ -44,15 +44,15 @@
   Mechanical Jung began as a semester project in <a href="http://courses.cse.tamu.edu/caverlee/csce470/">CSCE 470 <em>Information Storage and Retrieval</em></a> at Texas A&M University, taught by <a href="http://faculty.cse.tamu.edu/caverlee/">Dr. James Caverlee</a>.  Mech Jung uses most of the course's core concepts: vector space modeling (of text), stopwords and stemming, TF-IDF, search engine optimization (Hover + Google Webmaster Tools FTW guys), kNN and naive Bayes classification, crawling, and interface design (like our web 1.0 homepage?).
 </p>
 
-<img src="http://i.imgur.com/0BDWXmP.png" width="450"/>
+<img src="http://i.imgur.com/6Tulfdh.png" width="550"/>
 
 <p>
   Naturally, we took it a step further, using natural language processing to normalize text and, in some cases, filter based on part-of-speech and lemmatize words.  We even used support vector machines, cross validation, and our own composite classification method (classifier voting) to produce results.
 </p>
 
-<img src="http://i.imgur.com/qOYV51t.png" width="450"/>
+<img src="http://i.imgur.com/qOYV51t.png" width="550"/>
 
-<img src="http://i.imgur.com/t22EXaL.png" width="450"/>
+<img src="http://i.imgur.com/t22EXaL.png" width="550"/>
 
 <p>
   How does it work?  We crawled the site <a href="http://celebritytypes.com">CelebrityTypes</a> to obtain our ground truth personality classifications.  Then we collected quotes and tweets for the nearly 600 personalities we found.  Our primary training set (8775 quotes) is a processed version of a crawled quote collection available from <a href="http://thewebminer.com">TheWebMiner</a>.  We used quotes that we crawled from Freebase as an evaluation set.  Tweets were retrieved with <a href="http://tweepy.org">Tweepy</a>.  Many of the names in our ground truth database matched WebMiner names and Twitter handles, but we had to match many of them by hand.
